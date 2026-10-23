@@ -573,6 +573,44 @@ main{overflow-x:clip}
   .marq-track,.monogram::after,.thumb.on .bar i{animation:none!important}
   .story-stage{transform:none!important}
 }
+
+/* ================= section backgrounds (each band its own ground) ================= */
+:root{--white:#FFFFFF;--dbeige:#D9C7A6;--dbeige-ink:#3D3A44;--navy-tint:#E8EBF1;--stone:#ECE5D7;--steel:#ECEDEC}
+.hero{background:radial-gradient(70% 90% at 92% 10%,rgba(229,216,193,.75) 0%,transparent 60%),radial-gradient(40% 50% at 0% 100%,rgba(229,216,193,.35) 0%,transparent 70%),var(--ivory)}
+.facts{background:var(--white)}
+#range{background:var(--paper)}
+#range .tile{background:var(--white)}
+#range .tile:nth-child(2){background:#FBF6EC}
+#range .tile:nth-child(4){background:#F7F8FA}
+#range .tile:nth-child(5){background:#FBF6EC}
+@media (hover:hover){#range .tile:hover{background:var(--ivory)}}
+.story{background:radial-gradient(70% 55% at 12% 22%,#1C3363 0%,transparent 70%),radial-gradient(50% 40% at 95% 85%,#13254A 0%,transparent 70%),var(--navy)}
+#catalogue{background:var(--white)}
+#catalogue .cat-bar{background:var(--white)}
+.plate.t-care{background:#F4EDE0}
+.plate.t-exam{background:var(--stone)}
+.plate.t-ot{background:var(--navy-tint)}
+.plate.t-ss{background:var(--steel)}
+.plate.t-hygiene{background:#EFE8DA}
+.plate.t-utility{background:#EAE0CD}
+@media (hover:hover){.card:hover .plate{background:inherit;filter:saturate(1.05) brightness(.97)}.card:hover .plate.t-care{background:#F4EDE0}.card:hover .plate.t-exam{background:var(--stone)}.card:hover .plate.t-ot{background:var(--navy-tint)}.card:hover .plate.t-ss{background:var(--steel)}.card:hover .plate.t-hygiene{background:#EFE8DA}.card:hover .plate.t-utility{background:#EAE0CD}}
+.ot{background:linear-gradient(180deg,#DFCFB2 0%,var(--dbeige) 100%)}
+.ot .lede,.ot .sw-label{color:var(--dbeige-ink)}
+.ot .eyebrow{color:#7A5A1E}
+.ot .rule::after{background:var(--navy)}
+.sw{box-shadow:inset 0 0 0 3px #DCCBAC,0 0 0 1px rgba(13,26,54,.2)}
+.sw[aria-pressed="true"]{box-shadow:inset 0 0 0 3px #DCCBAC,0 0 0 2px var(--navy)}
+.ring{opacity:.22}
+.promise{background:var(--ivory)}
+.director{background:radial-gradient(60% 80% at 85% 50%,rgba(212,174,95,.12) 0%,transparent 60%),linear-gradient(120deg,#1B2F58 0%,#122247 100%)}
+#enquiry{background:var(--paper)}
+#enquiry .panel{background:var(--white);box-shadow:0 30px 60px -45px rgba(13,26,54,.35)}
+#enquiry .row{background:var(--ivory)}
+#enquiry .row .th{background:var(--paper)}
+#enquiry .field input,#enquiry .field textarea{background:var(--ivory)}
+.contact{background:var(--white);padding-block:84px}
+footer{margin-top:0;background:#0A1530}
+@media (max-width:760px){.contact{padding-block:56px}}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;scroll-behavior:auto!important}
 }
@@ -921,7 +959,7 @@ function renderGrid(){
   visible=P.filter(p=>(filter==='all'||p.cat===filter)&&(!query||(p.name+' '+p.tag+' '+catName(p.cat)+' '+p.desc).toLowerCase().includes(query)));
   const shown=visible.slice(0,limit());
   $('#grid').innerHTML=visible.length?shown.map((p,i)=>`<article class="card rv" style="--d:${(i%4)*90}ms">
-    <div class="plate${p.photo?' photo':''}" data-open="${p.id}" role="button" tabindex="0" aria-label="View ${esc(p.name)}">
+    <div class="plate t-${p.cat}${p.photo?' photo':''}" data-open="${p.id}" role="button" tabindex="0" aria-label="View ${esc(p.name)}">
       <span class="badge">${esc(p.tag)}</span>
       <span class="peek">View details →</span>
       <img src="img/${p.id}.webp" alt="${esc(p.name)}" loading="lazy">
@@ -989,7 +1027,7 @@ let cur=null;
 const sheet=$('#sheet'), scrim=$('#scrim');
 function fillSheet(id){
   const p=byId[id]; cur=id;
-  $('#sBody').innerHTML=`<div class="plate${p.photo?' photo':''}"><span class="badge">${esc(p.tag)}</span><img src="img/${p.id}.webp" alt="${esc(p.name)}"></div>
+  $('#sBody').innerHTML=`<div class="plate t-${p.cat}${p.photo?' photo':''}"><span class="badge">${esc(p.tag)}</span><img src="img/${p.id}.webp" alt="${esc(p.name)}"></div>
     <h2 id="sTitle">${esc(p.name)}</h2>
     <div class="cat eyebrow">${catName(p.cat)} · <span class="mono">${p.code}</span></div>
     <p class="desc">${esc(p.desc)}</p>
